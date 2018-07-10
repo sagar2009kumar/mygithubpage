@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Sokolin_Weblog>
+			<version> 0.0.1 </version>
+		</Sokolin_Weblog>
+	</modules>
+
+	<frontend>
+		<routers>
+			<wine>
+				<use>standard</use>
+				<args>
+					<module>Sokolin_Weblog</module>
+					<frontName>soko</frontName>
+				</args>
+			</wine>
+		</routers>
+	</frontend>
+	
+	<global>
+		<models>
+			<weblog>
+				<class>Sokolin_Weblog_Model</class>
+				<resourceModel>weblog_resource</resourceModel>
+			</weblog>
+			
+			<weblog_resource>
+				<class>Sokolin_Weblog_Model_Resource</class>
+				<entities>
+					<blogpost>
+						<table>blog_posts</table>
+					</blogpost>
+				</entities>
+			</weblog_resource>
+		</models>
+	</global>
+</config>
