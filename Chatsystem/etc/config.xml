@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Mofluid_Chatsystem>
+			<version>0.0.1</version>
+		</Mofluid_Chatsystem>
+	</modules>
+	<frontend>
+		<routers>
+			<chatsys>
+				<use>standard</use>
+				<args>
+					<module>Mofluid_Chatsystem</module>
+					<frontName>chat</frontName>
+				</args>
+			</chatsys>
+		</routers>
+	</frontend>
+	<global>
+		<models>
+			<mofluid_chatsystem>
+				<class>Mofluid_Chatsystem_Model</class>
+				<resourceModel>mofluid_chatsystem_mysql4</resourceModel>
+			</mofluid_chatsystem>
+			
+			<mofluid_chatsystem_mysql4>
+				<class>Mofluid_Chatsystem_Model_Mysql4</class>
+				<entities>
+					<msgadmin>
+						<table>mofluid_chatsystem_message_admin</table>
+					</msgadmin>
+					<msgjson>
+						<table>mofluid_chatsystem_message_json</table>
+					</msgjson>
+					<msgtext>
+						<table>mofluid_chatsystem_message_text</table>
+					</msgtext>
+				</entities>
+			</mofluid_chatsystem_mysql4>
+		</models>
+		<resources>
+			<mofluid_chatsystem_setup>
+				<setup>
+					<module>Mofluid_Chatsystem</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</mofluid_chatsystem_setup>
+			
+			<mofluid_chatsystem_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</mofluid_chatsystem_write>
+			
+			<mofluid_chatsystem_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</mofluid_chatsystem_read>
+		</resources>
+	</global>
+</config>
