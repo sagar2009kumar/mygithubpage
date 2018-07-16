@@ -6,5 +6,9 @@ class Mofluid_Chatsystem_Model_Msgadmin extends Mage_Core_Model_Abstract
     {
         parent::_construct();
         $this->_init('mofluid_chatsystem/msgadmin');
+        //~ $this->_init('chatsystem/msgjson');
+        //~ $this->_init('chatsystem/msgtext');
     }
 }
+
+?>

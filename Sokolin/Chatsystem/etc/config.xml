@@ -29,9 +29,12 @@
 					<msgadmin>
 						<table>mofluid_chatsystem_message_admin</table>
 					</msgadmin>
-					<requestcounter>
-						<table>mofluid_chatsystem_requestcounter</table>
-					</requestcounter>
+					<msgjson>
+						<table>mofluid_chatsystem_message_json</table>
+					</msgjson>
+					<msgtext>
+						<table>mofluid_chatsystem_message_text</table>
+					</msgtext>
 				</entities>
 			</mofluid_chatsystem_mysql4>
 		</models>

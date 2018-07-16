@@ -1,4 +1,3 @@
-
 <?php
 
 class Mofluid_Chatsystem_Model_Mysql4_Msgadmin_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
@@ -7,5 +6,6 @@ class Mofluid_Chatsystem_Model_Mysql4_Msgadmin_Collection extends Mage_Core_Mode
     {
         parent::_construct();
         $this->_init('mofluid_chatsystem/msgadmin');
+        
     }
 }
