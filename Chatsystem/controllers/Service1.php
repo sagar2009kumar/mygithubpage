@@ -2,9 +2,12 @@
 
 class Service {
 	
-	public function create_new_request($customerid, $message, $customername) {
+	public function create_new_request($customerid, $message, $sender, $receiver, $file) {
 		
 		try {
+			
+			// remove this this is not part of code
+			$customername = "JUNK";
 			
 			$requestid = 1;
 			
@@ -22,15 +25,34 @@ class Service {
 				$reqmodel->save();
 			}
 			
+			/**** uploading the image and getting image path ****/
+			$imgpath = '';
+			
+			if($file) {
+				$uploadres = $this->uploadImage($customerid, $requestid, $file);
+				if($uploadres["status"] == 0) {return $uploadres;};
+				$imgpath = $uploadres["imgpath"];
+			}else {
+				$imgpath = null;
+			}
+			
+			/**** creating the json format to save in the table ****/
+			
+			$messagearr = array("sender"=>$sender, "receiver"=>$receiver, "imagepath"=>$imgpath ,
+								"updated_at"=>Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'),
+								"message"=>$message);
+			$messagejson = json_encode($messagearr);
+			$messagejson = '['.$messagejson.']';
+			
 			/**** saving the data in admin table ****/
 			$adminmodel = Mage::getModel('mofluid_chatsystem/msgadmin');
 			$adminmodel->setCustomerId($customerid);
 			$adminmodel->setRequestId($requestid);
 			$adminmodel->setCreatedAt(Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'));
 			$adminmodel->setUpdatedAt(Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'));
-			$adminmodel->setMessage($message);
+			$adminmodel->setMessage($messagejson);
 			$adminmodel->setMessageCount(1);
-			$adminmodel->setCustomerName($customername);
+			$adminmodel->setCustomerName($customername); // remaining to set the customername
 			$adminmodel->save();
 			
 			$id = $adminmodel->getId();
@@ -45,12 +67,38 @@ class Service {
 		return $res;
 	}
 	
-	public function update_existing_request($id, $message) {
+	public function update_existing_request($id, $message, $sender, $receiver, $file) {
 		
 		try {
-			/**** saving the data in admin table ****/
+			
+			/**** uploading the image and getting image path ****/
 			$adminmodel = Mage::getModel('mofluid_chatsystem/msgadmin')->load($id);
-			$message = $adminmodel->getMessage().$message;
+			$requestid = $adminmodel->getRequestId();
+			$customerid = $adminmodel->getCustomerId();
+			$prevMsg = $adminmodel->getMessage();
+			$prevMsg = substr($prevMsg, 0, -1);
+			
+			$imgpath = '';
+			
+			if($file) {
+				$uploadres = $this->uploadImage($customerid, $requestid, $file);
+				if($uploadres["status"] == 0) {return $uploadres;};
+				$imgpath = $uploadres["imgpath"];
+			}else {
+				$imgpath = null;
+			}
+			
+			/**** creating the json format to save in the table ****/
+			
+			$messagearr = array("sender"=>$sender, "receiver"=>$receiver, "imagepath"=>$imgpath ,
+								"updated_at"=>Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'),
+								"message"=>$message);
+			$messagearr = json_encode($messagearr);
+								
+			$message = $prevMsg.','.$messagearr.']';
+			
+			/**** saving the data in admin table ****/
+			
 			$adminmodel->setMessage($message);
 			$adminmodel->setUpdatedAt(Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'));
 			$adminmodel->save();
@@ -67,21 +115,25 @@ class Service {
 		return $res;
 		
 	}
-		
-	public function getcustpkid($customerid, $requestid) {
+	
+	public function get_all_requests($customerid) {
 		try {
 			$customerid = ''.$customerid.'';
-			$requestid = ''.$requestid.'';
+			$requests = array();
 			
 			/**** getting the collection of id, requestid and customerid ****/
-			$collection = Mage::getModel('mofluid_chatsystem/msgadmin')->getCollection()->addFieldToSelect(array('id','customer_id','request_id'));  
+			$collection = Mage::getModel('mofluid_chatsystem/msgadmin')->getCollection()->addFieldToSelect(array('id','customer_id','request_id')); 
 			
 			/*** filtering the collection first by customerid and then by requestid ****/
-			$collection = $collection->addFieldToFilter('customer_id', array('eq'=>$customerid));
-			$collection = $collection->addFieldToFilter('request_id', array('eq'=>$requestid));
+			$collection = $collection->addFieldToFilter('customer_id', array('eq'=>$customerid)); 
 			
-			/**** Finally getting the id, it will be unique understand ****/
-			$res["id"] = $collection->getId();
+			/**** getting all the requests_id and their corresponding id ****/
+			foreach($collection as $col) {
+				$requests[$col->getRequestId()] =  $col->getId();
+			}
+			
+			$res["requests_id => id "] = $requests;
+			$res["customer_id"] = $customerid;
 			$res["message"] = "success";
 			$res["status"] = 1;
 		}catch(Exception $e) {
@@ -90,6 +142,7 @@ class Service {
 		}
 		return $res;
 	}
+		
 	
 	public function get_all_message($id) {
 		try {
@@ -101,7 +154,6 @@ class Service {
 			$res["message count"] = $adminmodel->getMessageCount();
 			$res["customer name"] = $adminmodel->getCustomerName();
 			$res["id"] = $id;
-			$res["message"] = "success";
 			$res["status"] = 1;
 		}catch(Exception $e) {
 			$res["message"] = "Failed in get_all message <br> ". $e->getMessage();
@@ -168,35 +220,55 @@ class Service {
 		$fileExt = explode('.', $fileName);
 		$fileActualExt = strtolower(end($fileExt));
 		
-		/**** only these types are allowed ****/
-		$allowed = array('jpg','jpeg','png','pdf');
-		
-		if(in_array($fileActualExt,$allowed)) {
-			if($fileError == 0) {
-				/**** getting the unique name for the customer ****/
-				$fileNameNew = uniqid().".".$fileActualExt;
-				
-				/**** getting the name for the required directory ****/
-				$tempDir = $this->processDir($customerid, $requestid);
-				
-				if($tempDir["status"] == 0 ) {
-					$res["message"] = $tempDir["message"];
-					$res["status"] = 0;
-				}else {
-					$fileDestination = $tempDir["dir"].$fileNameNew;
-					/**** moving the required file to required folder ****/
-					move_uploaded_file($fileTmpName, $fileDestination);
-					$res["message"] = "success";
-					$res["status"] = 1;
-					$res["imgpath"] = $fileDestination;
-				}
-			}else {
-				$res["message"] = "There was error uploading file Maybe file format not supported.";
+		if($fileError == 0) {
+			/**** getting the unique name for the customer ****/
+			$fileNameNew = uniqid().".".$fileActualExt;
+			
+			/**** getting the name for the required directory ****/
+			$tempDir = $this->processDir($customerid, $requestid);
+			
+			if($tempDir["status"] == 0 ) {
+				$res["message"] = $tempDir["message"];
 				$res["status"] = 0;
+			}else {
+				$fileDestination = $tempDir["dir"].$fileNameNew;
+				/**** moving the required file to required folder ****/
+				move_uploaded_file($fileTmpName, $fileDestination);
+				$res["message"] = "success";
+				$res["status"] = 1;
+				$res["imgpath"] = $fileDestination;
 			}
 		}else {
-			$res["message"] = "You cannot upload this type of file";
+			$res["message"] = "There was error uploading file Maybe file format not supported.";
 			$res["status"] = 0;
+		}
+		return $res;
+	}
+	
+	/**** specifically of no use till now ****/
+	
+	public function getcustpkid($customerid, $requestid) {
+		try {
+			
+			/**** getting the id of the given customerid and requestid ****/
+			
+			$customerid = ''.$customerid.'';
+			$requestid = ''.$requestid.'';
+			
+			/**** getting the collection of id, requestid and customerid ****/
+			$collection = Mage::getModel('mofluid_chatsystem/msgadmin')->getCollection()->addFieldToSelect(array('id','customer_id','request_id'));  
+			
+			/*** filtering the collection first by customerid and then by requestid ****/
+			$collection = $collection->addFieldToFilter('customer_id', array('eq'=>$customerid));
+			$collection = $collection->addFieldToFilter('request_id', array('eq'=>$requestid));
+			
+			/**** Finally getting the id, it will be unique understand ****/
+			$res["id"] = $collection->getId();
+			$res["message"] = "success";
+			$res["status"] = 1;
+		}catch(Exception $e) {
+			$res["status"] = 0;
+			$res["message"] = "Failed to list <br>".$e->getMessage();
 		}
 		return $res;
 	}

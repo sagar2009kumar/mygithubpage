@@ -14,22 +14,25 @@ class Mofluid_Chatsystem_IndexController extends Mage_Core_Controller_Front_Acti
 			$customername = $_POST["customername"];
 			$message = $_POST["message"];
 			$id = $_POST["id"];
+			$file = isset($_FILES['file']) ? $_FILES['file'] : null;
+			$sender = $_POST["sender"];
+			$receiver = $_POST["receiver"];
 			
 			$chat_service = new Service();
 			
 			if($service == "createnewrequest") {
 				
-				$res = $chat_service->create_new_request($customerid, $message, $customername);
+				$res = $chat_service->create_new_request($customerid, $message, $sender, $receiver, $file);
 				echo $_GET["callback"].json_encode($res);
 				
-			}else if($service == "getcustpkid") {
+			}elseif($service == "listreqid") {
 				
-				$res = $chat_service->getcustpkid($customerid, $requestid);
+				$res = $chat_service->get_all_requests($customerid);
 				echo $_GET["callback"].json_encode($res);
 				
-			}else if($service == "update") {
+			}elseif($service == "update") {
 				
-				$res = $chat_service->update_existing_request($id, $message);
+				$res = $chat_service->update_existing_request($id, $message, $sender, $receiver, $file);
 				echo $_GET["callback"].json_encode($res);
 				
 			}elseif($service == "uploadImage") {
@@ -43,7 +46,13 @@ class Mofluid_Chatsystem_IndexController extends Mage_Core_Controller_Front_Acti
 				}
 				echo $_GET["callback"].json_encode($res);
 				
-			}else {
+			}elseif($service == "getallmessages") {
+				
+				$res = $chat_service->get_all_message($id);
+				echo $_GET["callback"].json_encode($res);
+				
+			}
+			else {
 				
 				echo "Nothing";
 				
