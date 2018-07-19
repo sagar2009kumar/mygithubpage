@@ -10,7 +10,8 @@ class Mofluid_Chatsystem_IndexController extends Mage_Core_Controller_Front_Acti
 
 			$service = $_GET["service"];
 			$customerid = $_POST["customerid"];
-			$requestid = $_POST["requestid"];
+			// use for checking uploadimage
+			$requestid = $_POST["requestid"]; 
 			$customername = $_POST["customername"];
 			$message = $_POST["message"];
 			$id = $_POST["id"];

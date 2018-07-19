@@ -70,12 +70,13 @@ class Service {
 	public function update_existing_request($id, $message, $sender, $receiver, $file) {
 		
 		try {
-			
 			/**** uploading the image and getting image path ****/
 			$adminmodel = Mage::getModel('mofluid_chatsystem/msgadmin')->load($id);
 			$requestid = $adminmodel->getRequestId();
 			$customerid = $adminmodel->getCustomerId();
 			$prevMsg = $adminmodel->getMessage();
+			
+			// replacing the last character of the string
 			$prevMsg = substr($prevMsg, 0, -1);
 			
 			$imgpath = '';
@@ -93,9 +94,8 @@ class Service {
 			$messagearr = array("sender"=>$sender, "receiver"=>$receiver, "imagepath"=>$imgpath ,
 								"updated_at"=>Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'),
 								"message"=>$message);
-			$messagearr = json_encode($messagearr);
 								
-			$message = $prevMsg.','.$messagearr.']';
+			$message = $prevMsg.','.json_encode($messagearr).']';
 			
 			/**** saving the data in admin table ****/
 			
@@ -147,7 +147,7 @@ class Service {
 	public function get_all_message($id) {
 		try {
 			$adminmodel = Mage::getModel('mofluid_chatsystem/msgadmin')->load($id);
-			$res["message"] = $adminmodel->getMessage();
+			$res["message"] = json_decode($adminmodel->getMessage());
 			$res["requestid"] = $adminmodel->getRequestId();
 			$res["created at"] = $adminmodel->getCreatedAt();
 			$res["updated_at"] = $adminmodel->getUpdatedAt();

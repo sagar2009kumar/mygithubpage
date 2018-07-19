@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<config>
+	
+	<modules>
+		<Mofluid_Chat>
+			<version>1.0.0</version>
+		</Mofluid_Chat>
+	</modules>
+	
+	<frontend>
+		<routers>
+			<chatsystem>
+				<use>standard</use>
+				<args>
+					<module>Mofluid_Chat</module>
+					<frontName>sokochat</frontName>
+				</args>
+			</chatsystem>
+		</routers>
+	</frontend>
+    
+	<global>
+		
+		<helpers>
+			<mofluid_chat>
+				<!-- This is where we define our helper directory -->
+				<class>Mofluid_Chat_Helper</class>
+			</mofluid_chat>
+		</helpers>
+		
+		<blocks>
+			<mofluid_chat>
+				<!-- Set a block definition and lookup directory -->
+				<class>Mofluid_Chat_Block</class>
+			</mofluid_chat>
+		</blocks>
+		
+		<models>
+			
+			<mofluid_chat>
+				<!-- This is where we define our model directory -->
+				<class>Mofluid_Chat_Model</class>
+				<!-- Define a resource to create a custom table -->
+				<resourceModel>mofluid_chat_mysql4</resourceModel>
+			</mofluid_chat>
+			 
+			<!-- Here's our resource model we'll use to create a database table -->
+			<mofluid_chat_mysql4>
+				<class>Mofluid_Chat_Model_Mysql4</class>
+				<entities>
+					<!-- Let's define our table, we'll call it with the baz name, but the real table is foo_bar_baz -->
+					<!-- After we define our entity, we can call it with our model by calling foo_bar/baz -->
+					<adminchat>
+						<table>mofluid_chat_message_admin</table>
+					</adminchat>
+					
+					<totalcounter>
+						<table>mofluid_chat_totalcounter</table>
+					</totalcounter>
+					
+				</entities>
+			</mofluid_chat_mysql4>
+			
+		</models>
+		
+		<!-- And finally we define our resource setup script -->
+		<resources>
+			<mofluid_chat_setup>
+				<setup>
+					<module>Mofluid_Chat</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</mofluid_chat_setup>
+			
+			<mofluid_chat_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</mofluid_chat_write>
+			
+			<mofluid_chat_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</mofluid_chat_read>
+		</resources>
+		
+	</global>
+	
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<!-- This is how we load our Adminhtml controllers -->
+					<modules>
+						<Mofluid_Chat before="Mage_Adminhtml">Mofluid_Chat_Adminhtml</Mofluid_Chat>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	
+	<adminhtml>
+		<layout>
+			<updates>
+				<mofluid_chat>
+					<!--
+					We again keep a nice naming convention and make our module upgrade proof by placing it in a separate folder
+					- Since we are in the adminhtml node, this will look for the XML file in the app/design/adminhtml/default/default root folder
+					-->
+					<file>mofluid/chat.xml</file>
+				</mofluid_chat>
+			</updates>
+		</layout>
+	</adminhtml>
+	
+</config>
+        
+       
