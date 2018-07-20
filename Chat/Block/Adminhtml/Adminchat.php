@@ -11,5 +11,7 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat
         $this->_headerText = $this->__('Adminchat');
          
         parent::__construct();
+
+        $this->_removeButton('add');
     }
 }

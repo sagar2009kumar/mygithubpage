@@ -11,6 +11,7 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
         $this->setId('mofluid_chat_adminchat_grid');
         $this->setDefaultDir('asc');
         $this->setSaveParametersInSession(true);
+        
     }
      
     protected function _getCollectionClass()
@@ -34,7 +35,7 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
         $this->addColumn('id',
             array(
                 'header'=> $this->__('ID'),
-                'align' =>'right',
+                'align' =>'center',
                 'width' => '25px',
                 'index' => 'id'
             )
@@ -43,36 +44,37 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
         $this->addColumn('customer_id',
             array(
                 'header'=> $this->__('Customer Id'),
-                'align' =>'right',
-                'width' => '25px',
+                'align' =>'center',
+                'width' => '20px',
                 'index' => 'customer_id'
             )
         );
         
+        $this->addColumn('request_id',
+			array(
+				'header' =>  $this->__('Request Id'),
+				'align' =>'center',
+                'width' => '10px',
+                'index' => 'request_id',
+                'sortable'  => false,
+                'renderer' => 'Mofluid_Chat_Block_Adminhtml_Adminchat_Requestrender'
+                )
+         );
+        
         $this->addColumn('customer_name',
 			array(
 				'header' =>  $this->__('Customer Name'),
-				'align' =>'right',
+				'align' =>'left',
                 'width' => '50px',
                 'index' => 'customer_name'
-                )
-         );
-         
-         $this->addColumn('request_id',
-			array(
-				'header' =>  $this->__('Request Id'),
-				'align' =>'right',
-                'width' => '10px',
-                'index' => 'request_id'
                 )
          );
          
          $this->addColumn('created_at',
 			array(
 				'header' =>  $this->__('Created At'),
-				'align' =>'right',
+				'align' =>'center',
 				'type'  => 'datetime',
-				'align' =>'left',
                 'width' => '100',
                 'index' => 'created_at'
                 )
@@ -81,12 +83,13 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
          $this->addColumn('updated_at',
 			array(
 				'header' =>  $this->__('Updated At'),
-				'align' =>'left',
+				'align' =>'center',
 				'type'   => 'datetime',
                 'width' => '100px',
                 'index' => 'updated_at'
                 )
          );
+         /*
          
          $this->addColumn('message_count',
 			array(
@@ -118,18 +121,30 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
                 )
          );
          
-         /*
-         $this->addColumn('action',
-			array('header'=> $this->__('Action'),
-				'align' =>'right',
-                'width' => '50px',
-                'index' => 'action'
-                )
-         );*/
+         */
          
-         $url = "https://www.google.com?";
+         //~ $this->addColumn('Action',
+			//~ array(
+				//~ 'header' =>  $this->__('Action'),
+				//~ 'align' =>'right',
+                //~ 'width' => '10px',
+                //~ 'sortable'  => false,
+                //~ 'index' => 'message_count',
+                //~ 'actions'   => array(
+				//~ array(
+					//~ 'caption' => $this->__('Chat'),
+					//~ 'url'     => array(
+						//~ 'base'=>'sokochat',
+						//~ 'params'=>array('id'=>$this->getRequest(),'service'=>'chat')
+					//~ ),
+					//~ 'field'   => 'id'
+					//~ )
+				//~ )
+                //~ )
+         //~ );
          
-         $this->addColumn('action',
+         
+         $this->addColumn('message_count',
             array(
                 'header'    => $this->__('Action'),
                 'type'      => 'action',
@@ -138,16 +153,6 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
                 'filter'    => false,
                 'sortable'  => false,
                 'width' => '50px',
-                /*
-                'actions'   => array(
-                    array(
-                        'caption' => $this->__('View'),
-                        'url'     => $this->getEditParamsForAssociated(),
-                        'field'   => 'id',
-                        'onclick'  => 'window.location.href = "https://www.ibm.com?";return false;',
-                        'href' => 'http://google.com'
-                    )
-                )*/
                 'actions'   => array(
 				array(
 					'caption' => $this->__('Chat'),
@@ -156,11 +161,9 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
 						'params'=>array('id'=>$this->getRequest(),'service'=>'chat')
 					),
 					'field'   => 'id'
+					)
 				)
-        ),
-        ));
-
-		// superProduct.createPopup(this.href)
+			));
          
         return parent::_prepareColumns();
     }
@@ -168,7 +171,7 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
     public function getRowUrl($row)
     {
         // This is where our row data will link to
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('sokochat/index/index', array('id' => $row->getId(), 'service'=>'chat'));
     }
     
     
