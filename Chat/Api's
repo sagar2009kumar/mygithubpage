@@ -1,0 +1,31 @@
+// Remained to just delete the table mofluid_chatsystem_message_counter and mofluid_chatsystem_message_admin
+
+/**** to update in the message field ****/
+$messagearr = array("sender"=>$sender, "receiver"=>$receiver, "imagepath"=>$imgpath ,
+								"created_at"=>Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'),
+								"message"=>$message);
+			$messagejson = json_encode($messagearr);
+			$messagejson = '['.$messagejson.']';
+			
+			
+$prevMsg = $adminmodel->getMessage();
+			
+			// replacing the last character of the string
+			$prevMsg = substr($prevMsg, 0, -1);
+			
+$message = $prevMsg.','.json_encode($messagearr).']';
+
+
+All the files should be send via post method:::
+
+For getting all the messages ::: 
+http://127.0.0.1/soko/index.php/sokochat/?service=getallmessages&id=3
+
+For creating the new requests ::: 
+http://127.0.0.1/soko/index.php/sokochat/?service=createnewrequest&customerid=55&sender=ram&receiver=admin&message=she is boring
+
+For listing of all the request corresponding to the particular customer :::
+http://127.0.0.1/soko/index.php/sokochat/?service=listreqid&customerid=55
+
+For updating the given messages :::
+http://127.0.0.1/soko/index.php/sokochat/?service=update&id=3&sender=ram&receiver=admin&message=she is amazing

@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS {$this->getTable('mofluid_chat/adminchat')} (
   `updated_at` datetime default NULL,
   `message_count` int(11) unsigned NOT NULL default 0,
   `message` longtext default '',
-  `last_message` longtext default'',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS {$this->getTable('mofluid_chat/totalcounter')} (
   `customer_id` int(11) unsigned NOT NULL, 
   `request_id` int(11) default 0,
+  `profile_pic` varchar(255) default '',
   PRIMARY KEY (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

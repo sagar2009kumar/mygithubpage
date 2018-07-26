@@ -40,15 +40,26 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
                 'index' => 'id'
             )
         );
+        
+        
+        $this->addColumn('customer_name',
+			array(
+				'header' =>  $this->__('Customer Name'),
+				'align' =>'left',
+                'width' => '50px',
+                'index' => 'customer_name',
+                'sortable'  => false,
+                )
+         );
          
-        $this->addColumn('customer_id',
-            array(
-                'header'=> $this->__('Customer Id'),
-                'align' =>'center',
-                'width' => '20px',
-                'index' => 'customer_id'
-            )
-        );
+        //~ $this->addColumn('customer_id',
+            //~ array(
+                //~ 'header'=> $this->__('Customer Id'),
+                //~ 'align' =>'center',
+                //~ 'width' => '20px',
+                //~ 'index' => 'customer_id'
+            //~ )
+        //~ );
         
         $this->addColumn('request_id',
 			array(
@@ -58,15 +69,6 @@ class Mofluid_Chat_Block_Adminhtml_Adminchat_Grid
                 'index' => 'request_id',
                 'sortable'  => false,
                 'renderer' => 'Mofluid_Chat_Block_Adminhtml_Adminchat_Requestrender'
-                )
-         );
-        
-        $this->addColumn('customer_name',
-			array(
-				'header' =>  $this->__('Customer Name'),
-				'align' =>'left',
-                'width' => '50px',
-                'index' => 'customer_name'
                 )
          );
          
