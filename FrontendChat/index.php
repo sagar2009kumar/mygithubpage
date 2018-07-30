@@ -1,5 +1,14 @@
 <?php $id = intval($_GET['id']); ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<html>
+	<head>
+		<title>Sokolin Chat </title>
+		<link rel = "stylesheet" href = "chat.css">
+		<link rel="shortcut icon" href="http://sokolin.ebizontech.biz/skin/frontend/sokolin/granada/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="http://sokolin.ebizontech.biz/skin/frontend/sokolin/granada/favicon.ico" type="image/x-icon">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type = "text/javascript">
 
 /**** counter variable to make the div all across the chatboxes ****/
@@ -22,6 +31,15 @@ var isProductRight = false;
 
 /**** search product image path ****/
 var searchProductImageUrl = '';
+
+/**** variable customerid to get all the requests ****/
+var customerId = 0;
+
+/**** variable for holding all the requests ****/
+var requestArr = 0;
+
+/**** variable product description to describe product desc ****/
+var prodDesc = '';
 
 function getJsonFromUrl(url) {
 	
@@ -96,10 +114,12 @@ function setSearchProductDescription(response) {
 		/**** if the request response with success then display the name ****/
 		$('#description').html("");
 		$('#description').append(res["product_name"]);
+		
 		// result of the image 
 		searchProductImagePath = res["image_path"];
 		searchProductImagePath = "http://sokolin.ebizontech.biz/media/catalog/product/5/9/59739_zoom.jpg"; 
 		currProductId = productId;
+		prodDesc = res["product_description"];
 		isProductRight = true;
 	}else {
 		/**** if the request response is false then display message ****/
@@ -241,6 +261,16 @@ function addMessageToClient(imagePath, message, time) {
 	
 }
 
+/**** add product image to admin ****/
+
+function addProductImageToAdmin(imagePath, message, time) {
+	
+	addImageToAdmin(imagePath, time);
+	addTextToAdmin(message, time);
+	
+}
+	
+
 /**** function to set the data to the chat-body div ****/
 
 function setTemplateData(templateData) {
@@ -253,8 +283,12 @@ function setTemplateData(templateData) {
 			if(msgarr[eachMsg]['sender'] == 'admin') senderIsAdmin = true;
 			if(msgarr[eachMsg]['imagepath']!='') imagePath = msgarr[eachMsg]['imagepath'];
 			var dateString = msgarr[eachMsg]['created_at'].split(' '); time = dateString[1];
+			var isProduct = msgarr[eachMsg]['productid'];
 			// Remaining ::: to set the time to u.s time
-			if(senderIsAdmin) { 
+			if(isProduct!='') {
+				//if product id is present then sender is definitely admin IMPORTANT
+				addProductImageToAdmin(imagePath, message, time);
+			}else if(senderIsAdmin) { 
 				addMessageToAdmin(imagePath, message, time);
 			}else {
 				addMessageToClient(imagePath, message, time);
@@ -274,6 +308,9 @@ function setChatBody(response) {
 		/**** setting the name of the customer ****/
 		recv = res["customerName"];
 		
+		/**** setting the customer id ****/
+		customerId = res["customerId"];
+		
 		/**** getting the messages with the help of templateData variable ****/
 		var templateData = res["message"];
 		setTemplateData(templateData);
@@ -281,6 +318,10 @@ function setChatBody(response) {
 		/**** set the scrollbar to the bottom of the screen ****/
 		var objDiv = document.getElementById("chat_body");
 		objDiv.scrollTop = objDiv.scrollHeight;
+		
+		if(requestArr == 0)
+			/**** for getting all the request to the given customerid only for first time ****/
+			gettingAllRequests();
 		
 	} else {
 		
@@ -340,9 +381,9 @@ function sendText() {
 }
 
 /**** function to hit the api for sending the product image ****/ 
-function hitApiForSendProductImage() {
+function hitApiForSendProductImage(productDescription) {
 	
-	var url = 'http://127.0.0.1/soko/index.php/sokochat/?service=update&id='+id+'&sender=admin&receiver='+recv+'&productid='+currProductId+'&message=';
+	var url = 'http://127.0.0.1/soko/index.php/sokochat/?service=update&id='+id+'&sender=admin&receiver='+recv+'&productid='+currProductId+'&message='+productDescription;
 	
 	$.ajax({
 		'url': url, 
@@ -369,19 +410,115 @@ function addImageForSearchedProduct() {
 	
 }
 
+/**** function to add the text for the searched product ****/
+function addTextForSearchedProduct() {
+	
+	/**** getting the date and time ****/
+	var time = new Date().toLocaleString();
+	var timearr = time.split(' ');
+	time = timearr[1];
+	
+	var trimmedDesc = prodDesc;
+	
+	/**** Trimming the data ****/
+	if(trimmedDesc.length > 156){
+		trimmedDesc = prodDesc.substring(0, 156);
+		trimmedDesc += '...';
+	}
+	
+	trimmedDesc = btoa(trimmedDesc);
+	
+	addTextToAdmin(trimmedDesc, time);
+	return trimmedDesc;
+}
+	
+
 /**** function to send the searched product image ****/
 
 function sendSearchProductImage() {
 	
 	if(isProductRight) {
-		hitApiForSendProductImage();
 		addImageForSearchedProduct();
+		var desc = addTextForSearchedProduct();
+		hitApiForSendProductImage(desc);
 		
 		/**** set the scrollbar to the bottom of the screen ****/
 		var objDiv = document.getElementById("chat_body");
 		objDiv.scrollTop = objDiv.scrollHeight;
 	}
 }
+
+/**** function to set the division in the requests ****/
+
+function addDivToRequest(requestId, Id) {
+	
+	if((/\S/.test(requestId))){
+		
+		/**** add text to the client ****/
+		counter++;
+		var temp = "single-message"+counter;
+		var temp2 = '#single-message'+counter;
+		
+		/**** appending the text to the div in the chat-body ****/
+		$('#request-body-div').append($('<div class = "single_message" id ='+temp+'>'));
+		$(temp2).append($('<div class = "single_message_text client">').append(message));
+		$(temp2).append($('</div>'));
+		$(temp2).append($('<div class = "single_message_time">').append(time).append('</div>'));
+	}
+	
+}
+
+/**** function to set all the requests ****/
+
+function setAllRequests(reqResponseData) {
+	
+	if(reqResponseData) {
+		
+		var res = JSON.parse(reqResponseData);
+		
+		if(res["status"] == 1) {
+			
+			/**** setting the requests of the array ****/
+			requestArr = res["requests_id=>id"];
+			
+			for(var each in requestArr) {
+				//alert(requestArr[each]["requests_id"]+requestArr[each]["id"]);
+			}
+			
+		}else {
+			alert("Error in getting all requests");
+		}
+	}
+}
+
+function gettingAllRequests() {
+	
+	var url = "http://127.0.0.1/soko/index.php/sokochat/?service=listreqid&customerid="+customerId;
+	
+	/**** preparing the XMLHttpRequest ****/
+	if (window.XMLHttpRequest) {
+		/**** code for IE7+, Firefox, Chrome, Opera, Safari ****/
+		xmlhttp=new XMLHttpRequest();
+	} else { 
+		/**** code for IE6, IE5 ****/
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	
+	/**** if the request is  processed ****/
+	xmlhttp.onreadystatechange = function() {
+		
+		/**** if the request got success by indicating the status of 200 ****/
+		if (this.readyState==4 && this.status==200) {
+			/**** receiving the request response from the server as json format ****/
+			setAllRequests(this.responseText);
+		}
+	}
+	
+	/**** send the xmlhttp requests ****/
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+	
 
 $(function() {
 	
@@ -408,71 +545,66 @@ $(function() {
 			queryProductIdImage();
 	  }, 1000);
 	};
+
 	
 })
 	
 
 </script>
-
-
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Sokolin Chat </title>
-		<link rel = "stylesheet" href = "chat.css">
-		<link rel="shortcut icon" href="http://sokolin.ebizontech.biz/skin/frontend/sokolin/granada/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="http://sokolin.ebizontech.biz/skin/frontend/sokolin/granada/favicon.ico" type="image/x-icon">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<div class = "split left" >
-			<div class = "top-bar">
-				<div class = "chatsystem_headline">Admin Chatsystem </div>
-				<div class = "search_request_box" > 
-					<div class = "request_logo">
-						Requests
+		<div class="header"><h1>Admin Chatsystem</h1></div>
+		<div class="main-content">
+			<div class = "split left" >
+				<div>
+					<div class = "search_request_box" > 
+						<div class = "request_logo">
+							Requests
+						</div>
+						<div class = "request-body" id = "request_body">
+							<ul id = "request-body-div">
+							
+							</ul>
+						</div>
+					</div>
+					<div class = "original_requests">
+						<ul id = "dynamicaddedlist" >
+							
+						</ul>
 					</div>
 				</div>
-				<div class = "original_requests">
-					<ul id = "dynamicaddedlist">
+				
+			</div>
+			<div class = "split right" id = "chat_body" >
+				<div class = "chat-body" >
+					<ul id = "chat-body-messages">
 						
 					</ul>
 				</div>
 			</div>
-			
 		</div>
-		<div class = "split right" >
-			<div class = "top-bar"></div>
-			<div class = "chat-body" id = "chat_body">
-				<ul id = "chat-body-messages">
-					
-				</ul>
+		<div class="footer">
+			<div class = "split_footer left_footer" >
+				<div class = "bottom-bar" >
+					<input type="text" placeholder='search id...' name="search" class = "search_box" id = "search">
+					<input type = "button" value = "send" id = "sendMe" class = "search_button" onclick = "sendSearchProductImage()" >
+					<div id = "description" class = "product_description" ></div>
+				</div>
+				
+			</div>
+			<div class = "split_footer right_footer" >
+				<div class = "bottom-bar">
+					<div class = "write-text-box">
+						<textarea class = "text-box"placeholder = 'write your text here ... ' name = "message" id = "message"></textarea>
+		<!--
+						<input type = "file" name = "file" class = "file_upload" id = "file_upload">
+		-->
+					</div>
+					<div>
+						<input type = "button" value = "submit" id = "clickMe" onclick="sendText()" class = "clickMe">
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
-	<footer>
-		<div class = "split_footer left_footer" >
-			<div class = "bottom-bar" >
-				<input type="text" placeholder='search id...' name="search" class = "search_box" id = "search">
-				<input type = "button" value = "send" id = "sendMe" class = "search_button" onclick = "sendSearchProductImage()" >
-				<div id = "description" class = "product_description" ></div>
-			</div>
-			
-		</div>
-		<div class = "split_footer right_footer" >
-			<div class = "bottom-bar">
-				<div class = "write-text-box">
-					<textarea class = "text-box"placeholder = 'write something here ... ' name = "message" id = "message"></textarea>
-	<!--
-					<input type = "file" name = "file" class = "file_upload" id = "file_upload">
-	-->
-				</div>
-				<div>
-					<input type = "button" value = "submit" id = "clickMe" onclick="sendText()" class = "clickMe">
-				</div>
-			</div>
-		</div>
-	</footer>
 </html>
