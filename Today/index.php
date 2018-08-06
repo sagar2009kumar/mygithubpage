@@ -41,6 +41,9 @@ var prodDesc = '';
 /**** variable for holding the product name ****/
 var productName = '';
 
+/**** variable to hold the path of the sent file ****/
+var filePath = '';
+
 function getJsonFromUrl(url) {
 	
 	// Only a template from getting the json from url using get method
@@ -75,7 +78,7 @@ function reloadChat() {
 	
 	$("#chat-body-messages").html("");
 	
-	var url = "http://127.0.0.1/soko/index.php/sokochat/?service=getallmessages&id="+id;
+	var url = "http://127.0.0.1/soko/index.php/mofluid119/?service=getallmessages&chatid="+id;
 	var response = '';
 	
 	/**** preparing the XMLHttpRequest ****/
@@ -136,7 +139,7 @@ function setSearchProductDescription(response) {
 function queryProductIdImage() {
 	
 	/**** search url for the query of image ****/
-	var searchUrl = "http://127.0.0.1/soko/index.php/sokochat/?service=query&productid="+productId;
+	var searchUrl = "http://127.0.0.1/soko/index.php/mofluid119/?service=query&productid="+productId;
 	
 	/**** preparing the XMLHttpRequest ****/
 	if (window.XMLHttpRequest) {
@@ -194,12 +197,14 @@ function addImageToAdmin(imagePath, time) {
 	/**** add image to the admin ****/
 	if(imagePath!='') {
 		/**** appending the image to the div if present ****/
+		
 		counter++;
+		var toDisplayImage = '<div class = "image_plus_desc"><div class = "imgadmin"><img src = '+imagePath+' class = "setImageSize"></div>';
 		temp = "single-message"+counter;
 		temp2 = '#single-message'+counter;
 		$('#chat-body-messages').append($('<div class = "single_message" id ='+temp+'>'));
-		$(temp2).append($('<div class = " imgbox imgadmin">').append('<img src = '+imagePath+' class = "setImageSize">'));
-		$(temp2).append($('</div>'));
+		$(temp2).append($('<div class = "blank_box"> &nbsp</div> '));
+		$(temp2).append($(toDisplayImage));
 		$(temp2).append($('<div class = "single_message_time">').append(time).append('</div>'));
 	}
 	
@@ -209,8 +214,8 @@ function addImageToAdmin(imagePath, time) {
 
 function addMessageToAdmin(imagePath, message, time) {
 	
-	addTextToAdmin(message, time);
 	addImageToAdmin(imagePath,time);
+	addTextToAdmin(message, time);
 	
 }
 
@@ -263,6 +268,33 @@ function addMessageToClient(imagePath, message, time) {
 	
 }
 
+/**** add video to the client ****/
+
+function addVideoToClient(videoPath, time) {
+	
+	
+	
+}
+
+/**** add video to the admin ****/
+
+function addVideoToAdmin(videoPath, time) {
+	
+	/**** add image to the admin ****/
+	if(videoPath!='') {
+		/**** appending the image to the div if present ****/
+		console.log(videoPath);
+		counter++;
+		var toDisplayImage = '<div class = "image_plus_desc"><div class = "imgadmin"><video height="94" width = "126" controls ><source src ='+videoPath+' type = "video/mp4" ></video></div>';
+		temp = "single-message"+counter;
+		temp2 = '#single-message'+counter;
+		$('#chat-body-messages').append($('<div class = "single_message" id ='+temp+'>'));
+		$(temp2).append($('<div class = "blank_box"> &nbsp</div> '));
+		$(temp2).append($(toDisplayImage));
+		$(temp2).append($('<div class = "single_message_time">').append(time).append('</div>'));
+	}
+}
+
 /**** function to set the data to the chat-body div ****/
 
 function setTemplateData(templateData) {
@@ -270,20 +302,25 @@ function setTemplateData(templateData) {
 	if(templateData) {
 		var msgarr = templateData;
 		for(var eachMsg in msgarr) {
-			var senderIsAdmin = false, message = '', imagePath = '', time = '';
+			var senderIsAdmin = false, message = '', imagePath = '', time = '', videoPath = '';
 			message = msgarr[eachMsg]['message'];
 			if(msgarr[eachMsg]['sender'] == 'admin') senderIsAdmin = true;
 			if(msgarr[eachMsg]['imagepath']!='') imagePath = msgarr[eachMsg]['imagepath'];
 			var dateString = msgarr[eachMsg]['created_at'].split(' '); time = dateString[1];
 			var isProduct = msgarr[eachMsg]['productid'];
 			var productName = msgarr[eachMsg]['productname'];
+			var videoPath = msgarr[eachMsg]['videopath'];
 			// Remaining ::: to set the time to u.s time
 			if(isProduct!='') {
 				//if product id is present then sender is definitely admin IMPORTANT
 				addProductImageToAdmin(imagePath, productName, message, time);
 			}else if(senderIsAdmin) { 
+				if(videoPath!='')
+					addVideoToAdmin(videoPath ,time);
 				addMessageToAdmin(imagePath, message, time);
 			}else {
+				if(videoPath!='')
+					addVideoToClient(videoPath, time);
 				addMessageToClient(imagePath, message, time);
 			}
 		}	
@@ -325,7 +362,7 @@ function setChatBody(response) {
 function hitApiForTextUpdate(message) {
 	
 	/**** api for the message update ****/
-	var url = 'http://127.0.0.1/soko/index.php/sokochat/?service=update&id='+id+'&sender=admin&receiver='+recv+'&productid='+productId+'&message='+message;
+	var url = 'http://127.0.0.1/soko/index.php/mofluid119/?service=update&chatid='+id+'&sender=admin&receiver='+recv+'&productid='+productId+'&chatmessage='+message;
 	
 	/**** hit the ajax for the information update ****/
 	$.ajax({
@@ -375,8 +412,7 @@ function sendText() {
 /**** function to hit the api for sending the product image ****/ 
 function hitApiForSendProductImage(productDescription) {
 	
-	console.log(productDescription);
-	var url = 'http://127.0.0.1/soko/index.php/sokochat/?service=update&id='+id+'&sender=admin&receiver='+recv+'&productid='+currProductId+'&message='+productDescription;
+	var url = 'http://127.0.0.1/soko/index.php/mofluid119/?service=update&chatid='+id+'&sender=admin&receiver='+recv+'&productid='+currProductId+'&chatmessage='+productDescription;
 	
 	$.ajax({
 		'url': url, 
@@ -456,6 +492,68 @@ function sendSearchProductImage() {
 		objDiv.scrollTop = objDiv.scrollHeight;
 	}
 }
+
+/**** function to send the file reader ****/
+function setFileReader() {
+	
+	var file = document.getElementById("file_to_send").files[0];
+	
+	/**** set the reader variable ****/
+	var reader =  new FileReader();
+	reader.readAsDataURL(file);
+	
+	var file    = document.getElementById("file_to_send").files[0];
+	var reader  = new FileReader();
+ 
+  
+	if (file) {
+		reader.readAsDataURL(file);
+	}
+
+	reader.addEventListener("load", function () {
+		filePath =reader.result;
+	}, false);
+	
+}
+
+/**** function to send the file to the server ****/
+function sendFile() {
+	
+	var fileurl = 'http://127.0.0.1/soko/index.php/mofluid119/?service=update&chatid='+id+'&sender=admin&receiver='+recv+'&productid=&chatmessage=';
+	
+	var file = document.getElementById("file_to_send").files[0];
+	
+	
+	if(file) {
+		
+		/**** getting the date and time ****/
+		var time = new Date().toLocaleString();
+		var timearr = time.split(' ');
+		time = timearr[1];
+		
+		addImageToAdmin(filePath, time);
+		
+		var fd =  new FormData();
+		fd.append("file", file);
+		
+		$.ajax({
+			  url: fileurl,
+			  type: "POST",
+			  data: fd,
+			  processData: false,  // tell jQuery not to process the data
+			  contentType: false   // tell jQuery not to set contentType
+			}).done(function( data ) {
+				console.log("Output file. ");
+			});
+		
+		
+		/**** set the scrollbar to the bottom of the screen ****/
+		var objDiv = document.getElementById("chat_body");
+		objDiv.scrollTop = objDiv.scrollHeight;
+		
+		document.getElementById("file_to_send").value = '';
+	}
+}
 	
 
 $(function() {
@@ -496,15 +594,7 @@ $(function() {
 			<div><h1>Admin Chatsystem</h1></div>
 		</div>
 		<div class="main-content">
-			<div class = "split left" >
-				<div>
-					<div class = "search_request_box" > 
-							<input type="text" placeholder='search product id ...' name="search" class = "search_box" id = "search" >
-							<input type = "button" value = "upload" id = "sendMe" class = "search_button" onclick = "sendSearchProductImage()" >
-					</div>
-				</div>
-				<div id = "description" class = "product_description" ></div>
-			</div>
+			
 			<div class = "split right" id = "chat_body" >
 				<div class = "chat-body" >
 					<ul id = "chat-body-messages">
@@ -516,9 +606,12 @@ $(function() {
 		<div class="footer">
 			<div class = "split_footer left_footer" >
 				<div class = "bottom-bar" >
+					<input type = "file" name = "file" id = "file_to_send" onchange = "setFileReader()"> 
+					<input type = "button" name = "submit" value = "submit" onclick = "sendFile()">
 					
+						<input type="text" placeholder='search product id ...' name="search" class = "search_box" id = "search" >
+					<input type = "button" value = "upload" id = "sendMe" class = "search_button" onclick = "sendSearchProductImage()" >
 				</div>
-				
 			</div>
 			<div class = "split_footer right_footer" >
 				<div class = "bottom-bar">
@@ -534,4 +627,3 @@ $(function() {
 		</div>
 	</body>
 </html>
-

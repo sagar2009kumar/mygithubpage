@@ -217,13 +217,6 @@ function setDataToDivInnerHTML(div_id, value) {
 	
 }
 
-function getDateAndTime(time) {
-
-	var timearr = time.split(' ');
-	return timearr;
-	
-}
-
 // ends helper function
 
 // starts functions used in program //
@@ -235,9 +228,7 @@ function setDataToChatBodyDiv(msgArr) {
 		var message = '', time = '', imagePath = '', videoPath = '', prodPath = '', prodDesc = '', prodId = '', prodName = '', senderIsAdmin = false;
 		
 		message = msgArr['message'];
-		time = msgArr['created_at'];
-		//time = getDateAndTime();
-		time = getDateAndTime(time);
+		time = getDateAndTime();
 		imagePath = msgArr['imagepath'];
 		videoPath = msgArr['videopath'];
 		prodId = msgArr['productid'];
@@ -248,22 +239,19 @@ function setDataToChatBodyDiv(msgArr) {
 		
 		prodPath = "http://127.0.0.1/magento19/media//Chat/cust_55/req_1/5b65e935df59c.jpg";
 		
-		//~ // Remaining ::: to set the time to u.s time
-			//~ if(prodId!='') {
-				//~ //if product id is present then sender is definitely admin IMPORTANT
-				//addProductImageToAdmin(prodPath, productName, prodDesc, time[1]);
-			//~ }else if(senderIsAdmin) { 
-				//~ if(videoPath!='')
-					//~ addVideoToAdmin(videoPath ,time);
-					
-				//~ addMessageToAdmin(imagePath, message, time[1]);
-			//~ }else {
-				//~ if(videoPath!='')
-					//~ addVideoToClient(videoPath, time);
-				//~ addMessageToClient(imagePath, message, time[1]);
-			//~ }
-			
-		addDivAdmin('');
+		// Remaining ::: to set the time to u.s time
+			if(prodId!='') {
+				//if product id is present then sender is definitely admin IMPORTANT
+				addProductImageToAdmin(prodPath, productName, prodDesc, time);
+			}else if(senderIsAdmin) { 
+				if(videoPath!='')
+					addVideoToAdmin(videoPath ,time);
+				addMessageToAdmin(imagePath, message, time);
+			}else {
+				if(videoPath!='')
+					addVideoToClient(videoPath, time);
+				addMessageToClient(imagePath, message, time);
+			}
 		
 }
 
@@ -565,72 +553,6 @@ function setFileReader() {
 
 /************************************* API's ends here ******************************************************/
 
-
-/**** function to add the customer logo to the message *****/
-
-function addDivAdmin(logoPath) {
-	
-	var logoCustPath = "http://127.0.0.1/magento19/media//Chat/cust_55/req_1/5b65e935df59c.jpg";
-	var message = "Hi how are you I am very much surprised by the fact that you are so beautiful why are you so beautiful please say that i am not so ugly please told me some that you will be so very much satisfied with that please verify that Why are you so much worried about the result please don't be afraid about the result i really never care about teh result really i don't  ";
-	var time = "2:28:56 PM";
-	var logoAdminPath = "http://sokolin.ebizontech.biz/skin/frontend/base/default/images/media/sokolin-logo.jpg";
-	var prodPath = "http://sokolin.ebizontech.biz/media/catalog/product/5/9/59739_zoom.jpg";
-	var prodDesc = "The Bordeaux glass is the perfect match with muscular, complex red wines that have a high tannin level.  This massive glass lives up to the full-bodied wines you will be serving.\r\n\r\nMade of over 24% lead crystal.\r\n\r\nHeight:  8 7/8 in. / Capacity: 21 1/2 oz.\r\n\r\nUse For:  Bordeaux, Red Cabernet, Merlot, Brunello, Dolcetto, Red Zinfandel, Shiraz\r\n\r\nSet of 2";
-	var prodName = "Riedel Vinum Bordeaux Wine Glasses (set of 2)";
-	var videoPath = "http://sokolin.ebizontech.biz/media//Chat/cust_55/req_15/5b65677fe1e72.mp4";
-	
-	if(logoCustPath != '') {
-		
-		counter++;
-		var temp = "single-message"+counter;
-		var temp2 = '#single-message'+counter;
-		
-		var logoToDisplay = '';
-		
-		if(counter%2==0) 
-		logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "cust-chat-box"><div class = "text-message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-		
-		else
-		logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "imagebox"><video width="252" height="266" controls ><source  src='+videoPath+' type="video/mp4" > </div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-		
-		/**** appending the text to the div in the chat-body ****/
-		$('#chat-body-messages').append($('<div class = "single-message" id ='+temp+'>'));
-		$(temp2).append($(logoToDisplay));
-	}
-	
-}
-
-function addProductImage() {
-	
-	logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "prodbox"><img src='+prodPath+' class = "prodimage"><div class = "proddesc"><strong>'+prodName+'</strong><br><br>'+prodDesc+'</div></div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-}
-
-function addProductImagePlusMessage() {
-	
-	logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "prodbox"><div class = "prodimageplusdesc"><img src='+prodPath+' class = "prodimage"><div class = "proddesc"><strong>'+prodName+'</strong><br><br>'+prodDesc+'</div></div><div class = "message">'+message+'</div></div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-	
-}
-
-function addTextToAdmin() {
-	
-	logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-}
-
-function addTextToCustomer() {
-	
-	logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "cust-chat-box"><div class = "message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-}
-	
-function addImageToAdmin() {
-	
-	logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "imagebox"><img src='+logoCustPath+' class = "image"></div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-}
-
-function addImagePluseMessageToAdmin() {
-	
-	logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "imagebox"><div ><img src='+logoCustPath+' class = "image"></div><div class = "text-message">'+message+'</div></div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-}
-
 /**** if the sender is admin and message is text ****/
 
 function addTextToAdmin(message, time) {
@@ -794,17 +716,6 @@ function addImageForSearchedProduct(message) {
 
 /****
 
-var logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box">'+message+'</div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-
-// message 
-if(counter%2==0) 
-logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "cust-chat-box"><div class = "text-message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-
-else
-logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "text-message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
-
-
-
 http://127.0.0.1/magento19/index.php/mofluid119?service=createnewrequest&customerid=55&sender=ram&receiver=admin&chatmessage=c2hlIGlzIGJvcmluZw==
 
 http://127.0.0.1/magento19/index.php/mofluid119/?service=getallmessages&chatid=1
@@ -819,22 +730,23 @@ http://127.0.0.1/magento19/index.php/mofluid119?service=update&chatid=30&sender=
 	<body>
 		<div class="header">
 			<div class = "customerName"><h1 id = "cust_name"></h1></div>
-			<h1>Admin Chatsystem</h1>
+			<div><h1>Admin Chatsystem</h1></div>
 		</div>
 		<div class="main-content">
-			<div class = "chat-body" id = "chat_body" >
-				<ul id = "chat-body-messages">
-					
-				</ul>
+			
+			<div class = "split right" id = "chat_body" >
+				<div class = "chat-body" >
+					<ul id = "chat-body-messages">
+						
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="footer">
 			<div class = "split_footer left_footer" >
 				<div class = "bottom-bar" >
-<!--
 					<input type = "file" name = "file" id = "file_to_send" onchange = "setFileReader()"> 
 					<input type = "button" name = "submit" value = "submit" onclick = "hitApiForSendFile()">
--->
 					
 						<input type="text" placeholder='search product id ...' name="search" class = "search_box" id = "search" >
 					<input type = "button" value = "upload" id = "sendMe" class = "search_button" onclick = "sendSearchProductImage()" >

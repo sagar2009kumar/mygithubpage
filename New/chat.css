@@ -1,17 +1,5 @@
-
-a.fill-div {
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
-}
-
-ul {
-	padding-left:10px;
-	margin: 0;
-}
-
 body {
+	/*** margin 0 to cover all the surface of the body otherwise a space will be left ****/
 	overflow-y : auto ;
 	margin: 0;
 }
@@ -25,6 +13,7 @@ body .header {
 }
 
 body .header h1 {
+
 	font-family: Arial;
 	padding:10px;
 	color : white;
@@ -40,40 +29,259 @@ body .header .customerName {
 }
 
 body .main-content {
+
 	display: inline-block;
+	width : 100%;
 	height: calc(100vh - 120px);
+	top : 0;
 }
 
-.top-bar {
+body .top-bar {
+
 	background : #7f0000;
 	height : 48px;
 	width : 100%;
 }
 
-.chatsystem_headline {
-	font-family: Arial;
-	font-size: 20px;
-	text-align : center;
-	padding:10px;
-	color : white;
+body .main-content .chat-body{
+
+	background: #d2cece;
+    width: 100%;
+    height: inherit;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-.split {
-    height: 100%;
+body .main-content .chat-body ul {
+	
+	margin:0px;
+	/**** if you want the left of the list to be zero ****/
+	padding-left:0px;
+	width : inherit;
+}
+
+body .main-content .chat-body ul .single-message {
+
+	padding-top:5px;
+	display: inline-block;
+	width:100%;
+	height: auto;
+	padding-bottom:10px
+	padding-left:0px;
+}
+
+body .main-content .chat-body ul .single-message .logo-box {
+
+	width: 60px;
+    height: inherit;
+    float:left;
+    margin-left:60px;
+    margin-right: 25px;
+}
+
+body .main-content .chat-body ul .single-message .admin-logo-box {
+
+	width: 60px;
+    height: inherit;
     float: left;
-    top: 0;
+    margin-left: 6px;
+    margin-right: 30px;
 }
 
-.left {
-    width : 30%;
-    background-color: white;
+body .main-content .chat-body ul .single-message .cust-logo-box {
+
+	width: 60px;
+    height: inherit;
+    float: left;
+    margin-left: 158px;
+    margin-right: 6px;
+
 }
 
-.right {
-    width : 100%;
-    background-color: white;
-    overflow-y:scroll;
+body .main-content .chat-body ul .single-message .cust-logo-box .custlogo {
+
+	width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
 }
+
+body .main-content .chat-body ul .single-message .admin-logo-box .adminlogo {
+
+	width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+body .main-content .chat-body ul .single-message .chat-box {
+	
+	width:763px;
+	height:inherit !IMPORTANT;
+	float:left;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box {
+	
+	
+	float:right;
+	padding-right :10px;
+	width:auto;
+	max-width:526px;
+	height:auto;
+
+}
+
+body .main-content .chat-body ul .single-message .chat-box .cust-chat-box {
+
+	float:left;
+	padding-left :10px;
+	width:auto;
+	max-width:513px;
+	height:auto;
+
+}
+
+body .main-content .chat-body ul .single-message .chat-box .cust-chat-box .text-message{
+
+	float:left;
+	text-align:justify;
+	border-radius: 20px;
+	background : white;
+	width : auto;
+	max-width: inherit; 
+	padding:15px;
+	word-wrap : break-word;
+
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .text-message {
+
+	float:right;
+	text-align:justify;
+	border-radius: 20px;
+	background : #8ac78a;
+	width : auto;
+	max-width: inherit; 
+	padding:15px;
+	word-wrap : break-word;
+
+}
+
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .imagebox {
+
+	float:right;
+	text-align:justify;
+	border-radius: 20px;
+	background : #8ac78a;
+	width : auto;
+	height: auto ;
+	max-width: 300px;
+	padding:15px;
+	word-wrap : break-word;
+
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .imagebox .image {
+
+	border-radius:6px;
+	width : 252px;
+	height : 236px;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .imagebox .video {
+
+	border-radius:6px;
+	width : 252px;
+	height : 266px;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .imagebox .text-message {
+
+	float:right;
+	text-align:justify;
+	border-radius: 3px;
+	width : auto; 
+	margin-top:10px;
+	padding:0px;
+	margin-right:4px;
+	word-wrap : break-word;
+	max-width : 252px;
+	height : auto;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .prodbox {
+	
+	float: right;
+    border-radius: 20px;
+    background: #8ac78a;
+    height: auto;
+    max-width: 433px;
+    padding:10px;
+    padding-right:8px;
+    padding-left:12px;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .prodbox .prodimage {
+	
+	float:left;
+	border-radius:3px;
+	width : 74px;
+	height : 117px;
+	display:inline-block;
+	margin-right:11px;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .prodbox .proddesc {
+	
+	color:#000b2b;
+	margin-top: 11px;
+	margin-right:5px;
+	font-size: 15.5px;
+	max-width: 365px;
+	max-height: 95px;
+	overflow: hidden;
+	text-align: justify;
+	word-wrap: break-word;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .prodbox .message {
+	
+	float:left;
+	margin-top: 4px;
+	margin-right:5px;
+	width:auto;
+	height:auto;
+	text-align: justify;
+	word-wrap: break-word;
+}
+
+body .main-content .chat-body ul .single-message .chat-box .admin-chat-box .prodbox .prodimageplusdesc {
+
+	height:auto;
+	min-height:117px;
+	margin:0px;
+	display:inline-block;
+	border-bottom: 1.3px dotted #001294;
+}
+
+body .main-content .chat-body ul .single-message .single-message-time {
+
+	display:inline-block;
+	padding-top:13px;
+	font-size: 12px;
+	min-height:47px;
+	width : 70px;
+	height: inherit !IMPORTANT;
+	font-family: Arial;
+	color : darkblue;
+}
+
+
+/***** done the part here ****/
 
 .search_request_box {
 	margin: 10px;
@@ -114,12 +322,6 @@ body .main-content {
 	text-align : center;
 }
 
-.chat-body{
-	background : #d2cece;
-	width:auto;
-	min-height : calc(100vh - 120px);
-}
-
 .write-text-box {
 	height:40px;
 	padding-top:5px;
@@ -147,6 +349,7 @@ body .main-content {
 	border: 0px;
 }
 
+/*
 .single_message {
 	margin-top:5px;
 	display: inline-block;
@@ -154,6 +357,7 @@ body .main-content {
 	width:100%;
 	height:auto;
 }
+*/
 
 .admin {
 	text-align:justify;
@@ -199,19 +403,6 @@ body .main-content {
 	height: auto;
 	float:left;
 	word-wrap: break-word;
-}
-
-.single_message_time {
-
-	padding-top:15px;
-	margin-left :0px;
-	font-size: 10px;
-	min-height:35px;
-	width : 70px;
-	height: auto;
-	float: right;
-	font-family: Arial;
-	color : darkblue;
 }	
 
 input[type="submit"]{
@@ -369,3 +560,15 @@ body .footer {
 	height: 24px;
 	float:left;
 }
+
+/*
+ * 
+ * //customer 
+
+logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "cust-chat-box"><div class = "message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
+
+// admin
+
+logoToDisplay = '<div class = "cust-logo-box"><img src ='+logoCustPath+' alt = "Image" class = "custlogo"></div><div class = "chat-box"><div class = "admin-chat-box"><div class = "message">'+message+'</div></div></div><div class = "admin-logo-box"><img src ='+logoAdminPath+' alt = "Image" class = "adminlogo"></div><div class = "single-message-time">'+time+'</div>';
+* 
+* */
