@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mofluid_Paymentcheckout>
+            <version>1.17.0</version>
+        </Mofluid_Paymentcheckout>
+    </modules>
+	<frontend>
+		<routers>
+			<mofluid_paymentcheckout>
+				<use>standard</use>
+				<args>
+					<module>Mofluid_Paymentcheckout</module>
+					<frontName>paymentcheckout</frontName>
+				</args>
+			</mofluid_paymentcheckout>
+		</routers>
+	</frontend>
+    <global>
+        <blocks>
+            <mofluid_paymentcheckout>
+                <class>Mofluid_Paymentcheckout_Block</class>
+            </mofluid_paymentcheckout>
+        </blocks>
+
+        <helpers>
+            <mofluid_paymentcheckout>
+                <class>Mofluid_Paymentcheckout_Helper</class>
+            </mofluid_paymentcheckout>
+        </helpers>
+
+        <models>
+            <mofluid_paymentcheckout>
+                <class>Mofluid_Paymentcheckout_Model</class>
+                <resourceModel>mofluid_paymentcheckout_mysql4</resourceModel>
+            </mofluid_paymentcheckout>
+            <mofluid_paymentcheckout_mysql4>
+                <class>Mofluid_Paymentcheckout_Model_Mysql4</class>
+                <entities>
+                    <payment>
+                        <table>mofluidpayment</table>
+                    </payment>
+                </entities>
+            </mofluid_paymentcheckout_mysql4>
+        </models>
+
+        <resources>
+            <mofluid_paymentcheckout_setup>
+                <setup>
+                    <module>Mofluid_Paymentcheckout</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mofluid_paymentcheckout_setup>
+            <mofluid_paymentcheckout_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </mofluid_paymentcheckout_write>
+            <mofluid_paymentcheckout_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </mofluid_paymentcheckout_read>
+        </resources>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <mofluid_paymentcheckout after="Mage_Adminhtml">Mofluid_Paymentcheckout_Adminhtml</mofluid_paymentcheckout>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <mofluid_paymentcheckout>
+                    <file>mofluid_paymentcheckout.xml</file>
+                </mofluid_paymentcheckout>
+            </updates>
+        </layout>
+<!--
+        <translate>
+            <modules>
+                <Mofluid_Paymentcheckout>
+                    <files>
+                        <default>Mofluid_Paymentpaypal.csv</default>
+                    </files>
+                </Mofluid_Paymentcheckout>
+            </modules>
+        </translate>
+-->
+    </adminhtml>
+
+    <default>
+        <mofluid_paymentcheckout>
+            <general>
+                <default_sort_by><![CDATA[position]]></default_sort_by>
+            </general>
+        </mofluid_paymentcheckout>
+    </default>
+</config>

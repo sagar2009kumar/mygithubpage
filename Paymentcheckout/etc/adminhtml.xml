@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <mofluid translate="title" module="mofluid_paymentcheckout">
+            <title>Mofluid</title>
+            <sort_order>90</sort_order>
+            <children>
+                <mofluid_payment translate="title" module="mofluid_paymentcheckout">
+                    <title>Payment Configuration</title>
+                    <sort_order>10</sort_order>
+                    <children>
+                        <mofluid_paymentcheckout_menu translate="title" module="mofluid_paymentcheckout">
+                            <title>Checkout.com</title>
+                            <sort_order>9</sort_order>
+                            <action>adminhtml/paymentcheckout</action>
+                        </mofluid_paymentcheckout_menu>
+                    </children>
+                </mofluid_payment>
+            </children>
+        </mofluid>
+    </menu>
+    <!--Access Control Settings-->
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <mofluid translate="title" module="mofluid_paymentcheckout">
+                        <title>Mofluid</title>
+                        <sort_order>90</sort_order>
+                        <children>
+                            <mofluid_payment translate="title" module="mofluid_paymentcheckout">
+                                <title>Payment Configuration</title>
+                                <sort_order>10</sort_order>
+                                <children>
+                                    <mofluid_paymentcheckout_menu translate="title" module="mofluid_paymentcheckout">
+                                        <title>Checkout.com</title>
+                                        <sort_order>9</sort_order>
+                                    </mofluid_paymentcheckout_menu>
+                                </children>
+                            </mofluid_payment>
+                        </children>
+                    </mofluid>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
