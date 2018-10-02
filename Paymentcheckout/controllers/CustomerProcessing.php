@@ -1,6 +1,7 @@
 <?php
 
-require_once(Mage::getBaseDir('lib').'/CheckoutPHP/vendor/autoload.php');
+$lib_path = Mage::getBaseDir('lib').'/checkout-php-library-master/vendor/autoload.php';
+require_once($lib_path);
 use  com\checkout;
 use com\checkout\ApiServices;
 
