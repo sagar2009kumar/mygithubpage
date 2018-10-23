@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+   <sections>
+        <payment>
+            <groups>
+                <cybersourcesop translate="label" module="cybersourcesop">
+                    <label>Cybersource Secure Acceptance (Sop)</label>
+                    <sort_order>670</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </title>
+                        <wsdl_test_url>
+                            <label>Cybersource WSLD Test Url</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </wsdl_test_url>
+                        <wsdl_live_url>
+                            <label>Cybersource WSLD Live Url</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </wsdl_live_url>
+                        <test translate="label">
+                            <label>Test mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes requests will be made to the test cybersource area.]]></comment>
+                        </test>
+                        <merchant_response translate="label">
+                            <label>Enable Merchant response</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Set to yes to test Merchant response.]]></comment>
+                        </merchant_response>
+                        <default_currency>
+                            <label>Currency send to Cybersource</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcesop/source_currency</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[The currency the customer will be billed in, in Cybersource.]]></comment>
+                        </default_currency>
+                        <message_block translate="label">
+                            <label>Payment Processing Static Block</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cms/resource_block_collection</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Message to display when contacting Cybersource SOP.]]></comment>
+                        </message_block>
+                        <!-- SA Merchant Settings -->
+                        <merchant_heading translate="label comment">
+                            <label>Merchant Account Details</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </merchant_heading>
+                        <merchant_id translate="label">
+                            <label>Merchant Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your merchant id.]]></comment>
+                        </merchant_id>
+                        <soapkey translate="label">
+                            <label>Soap Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                        </soapkey>
+                        <!-- SA Merchant Settings -->
+                        <sa_heading translate="label comment">
+                            <label>Secure Acceptance Profile Details</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sa_heading>
+                        <profile_id translate="label">
+                            <label>Profile Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The id of the profile to use, must be created in your cybersource account area as well.]]></comment>
+                        </profile_id>
+                        <merchant_access_key translate="label">
+                            <label>Merchant Access Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your merchant access key generated in your cybersource account area.]]></comment>
+                        </merchant_access_key>
+                        <secret_key translate="label">
+                            <label>Secret Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your secret key generated in your cybersource account area.]]></comment>
+                        </secret_key>
+                        <!-- Web / Mobile Merchant Settings -->
+                        <mobile_heading translate="label comment">
+                            <label>Web / Mobile Profile Details</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </mobile_heading>
+                        <mobile_enabled>
+                            <label>Enable Web / Mobile</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Enable to use Cybersource Web / Mobile Integration.]]></comment>
+                        </mobile_enabled>
+                        <mobile_profile_id>
+                            <label>Mobile Profile Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The id of the profile to use, must be created in your cybersource account area as well.]]></comment>
+                        </mobile_profile_id>
+                        <mobile_merchant_access_key>
+                            <label>Mobile Merchant Access Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your merchant access key generated in your cybersource account area.]]></comment>
+                        </mobile_merchant_access_key>
+                        <mobile_merchant_secret_key>
+                            <label>Mobile Secret Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your secret key generated in your cybersource account area.]]></comment>
+                        </mobile_merchant_secret_key>
+                        <use_block_content>
+                            <label>Use Static Block content for Web-Mobile Payment Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes the Web-Mobile Payment Description Static Block content will be displayed on the checkout page.]]></comment>
+                        </use_block_content>
+                        <block_content_id>
+                            <label>Web-Mobile Payment Description Static Block</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cms/resource_block_collection</source_model>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Static block content that will be displayed on checkout page.]]></comment>
+                        </block_content_id>
+                        <cybersource_locale>
+                            <label>Locale</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcesop/source_locale</source_model>
+                            <sort_order>28</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Translation to use for transactions.]]></comment>
+                        </cybersource_locale>
+                        <!-- Credit Card Settings -->
+                        <cc_heading translate="label comment">
+                            <label>Card Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cc_heading>
+                        <cctypes translate="label">
+                            <label>Credit Card Types</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>cybersourcesop/source_cctype</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </cctypes>
+                        <useccv translate="label">
+                            <label>Request Card CVN Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Ask the customer and validate the credit card CVN code.]]></comment>
+                        </useccv>
+                        <order_status translate="label">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Select the processing status for orders placed with Cybersource.]]></comment>
+                            <tooltip><![CDATA[Create your custom Processing State status in System Configuration - Order Statuses.]]></tooltip>
+                        </order_status>
+                        <partial_capture_enabled translate="label">
+                            <label>Allow Partial Capture</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes partial capture will be enabled.]]></comment>
+                        </partial_capture_enabled>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paygate/authorizenet_source_paymentAction</source_model>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </payment_action>
+                        <mobile_payment_action translate="label">
+                            <label>Payment Action for Web / Mobile</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcesop/source_mobilePaymentAction</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </mobile_payment_action>
+                        <forceavs translate="label">
+                            <label>Action for AVS Failure</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcesop/source_cardchecks</source_model>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[How to handle an order with AVS failure]]></comment>
+                        </forceavs>
+                        <forceavs_codes translate="label">
+                            <label>The AVN Codes To Accept</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>
+                                <model>cybersourcesop/adminhtml_system_avscomment</model>
+                            </comment>
+                        </forceavs_codes>
+                        <forcecvn translate="label">
+                            <label>Action for CVN Failure</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcesop/source_cardchecks</source_model>
+                            <sort_order>44</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[How to handle an order with CVN failure, only applicable if Request Card CVN Code set to yes.]]></comment>
+                        </forcecvn>
+                        <forcecvn_codes translate="label">
+                            <label>The CVN Codes To Accept</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>
+                                <model>cybersourcesop/adminhtml_system_cvncomment</model>
+                            </comment>
+                        </forcecvn_codes>
+                        <force3dsecure translate="label">
+                            <label>Override AVS and CVN checks if 3d secure passed</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>48</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes any order with a 3d secure pass will ignore the AVS and CVN rules set above]]></comment>
+                        </force3dsecure>
+                        <debug translate="label">
+                            <label>Debug Responses</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>52</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes all responses will be logged in cybersourcesop.log]]></comment>
+                        </debug>
+                        <!-- Tokenisation -->
+                        <token_heading translate="label comment">
+                            <label>Tokenisation</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>54</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </token_heading>
+                        <enable_tokenisation translate="label">
+                            <label>Enable Tokenisation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>56</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Enable Credit Card Tokenisation for customers]]></comment>
+                        </enable_tokenisation>
+                        <import translate="label">
+                            <label>Import Tokens</label>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>cybersourcesop/source_importtoken</backend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Upload a CSV file containing email and token ID's to import into your CybersourceSOP Module.]]></comment>
+                        </import>
+                        <import_limit translate="label">
+                            <label>Override maximum of 1000 tokens per import</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>64</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Current import limit is 1000 records. Set to yes to enable larger imports.]]></comment>
+                        </import_limit>
+                        <!-- Decision Manager -->
+                        <dm_heading translate="label comment">
+                            <label>Decision Manager and Merchant Defined Data</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>68</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dm_heading>
+                        <dm_enabled>
+                            <label>Decision Manager</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Enable to make use of Decision Manager]]></comment>
+                        </dm_enabled>
+                        <dm_orders>
+                            <label>Use DM when placing orders</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcesop/source_dmOrders</source_model>
+                            <sort_order>72</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[You can choose whether you want Decision Manager active for orders placed in backend, frontend or for all orders.]]></comment>
+                        </dm_orders>
+                        <review_comment translate="label">
+                            <label>Decision Manager Review Comment</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>76</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[This comment is displayed in Order Comment History. For Admin use.]]></comment>
+                        </review_comment>
+                        <review_message translate="label">
+                            <label>Decision Manager Review Message</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[This message is displayed to the customer when their order is placed under Decision Manager review.]]></comment>
+                        </review_message>
+                        <mdd_enabled>
+                            <label>Merchant Fields</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Enable to make use of Merchant Defined Fields]]></comment>
+                        </mdd_enabled>
+                        <mdd_fields translate="label">
+                            <label>Custom Fields</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>cybersourcesop/source_merchantfield_custom</frontend_model>
+                            <backend_model>cybersourcesop/source_merchantfield_array</backend_model>
+                            <sort_order>95</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </mdd_fields>
+                        <!-- Device Fingerprint -->
+                        <fingerprint_heading translate="label comment">
+                            <label>Device Fingerprint</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </fingerprint_heading>
+                        <device_fingerprint_enabled>
+                            <label>Enable Device Fingerprinting</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Enable Device Fingerprinting.]]></comment>
+                            <tooltip><![CDATA[ Decision Manager must be enabled for device Fingerprinting to work. ]]></tooltip>
+                        </device_fingerprint_enabled>
+                        <device_fingerprint_org_id>
+                            <label>Device Fingerprint Organisation ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the Organisation ID provided to you by Cybersource for Device Fingerprinting.]]></comment>
+                        </device_fingerprint_org_id>
+                        <device_fingerprint_url>
+                            <label>Device Fingerprint URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the Device Fingerprint URL to be used. This can be either a Live or Test URL]]></comment>
+                        </device_fingerprint_url>
+                        <!-- Cancel pending orders -->
+                        <cancel_orders_heading translate="label comment">
+                            <label>Cancel Pending Payment Orders</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cancel_orders_heading>
+                        <update_cron>
+                            <label>Update Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the Cron Job that will update order status if communication with Cybersource is interrupted during checkout.]]></comment>
+                        </update_cron>
+                        <update_cron_limit translate="label">
+                            <label>Amount of Orders in batch</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>211</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number</validate>
+                            <comment><![CDATA[This is the maximum amount of orders that will be batched for the cancel order cron.]]></comment>
+                        </update_cron_limit>
+                        <cancel_log_enabled translate="label">
+                            <label>Log Update Order Responses</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>212</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes the responses from Update Order cron will be logged.]]></comment>
+                        </cancel_log_enabled>
+                        <!-- On-Demand Report -->
+                        <report_heading translate="label comment">
+                            <label>Order Update and Reporting</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>215</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </report_heading>
+                        <report_enabled>
+                            <label>On-Demand Report</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Enable to make use of On-Demand Report to update orders]]></comment>
+                        </report_enabled>
+                        <report_test translate="label">
+                            <label>On-Demand Report Test Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>221</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes requests will be made to the On-Demand Report Test URL.]]></comment>
+                            <tooltip><![CDATA[Recommend to enable for test and development purposes. Disable for live environment.]]></tooltip>
+                            <depends>
+                                <report_enabled>1</report_enabled>
+                            </depends>
+                        </report_test>
+                        <report_test_url translate="label">
+                            <label>On-Demand Report Test URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>222</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the test url for the On-Demand Conversion Report.]]></comment>
+                            <depends>
+                                <report_enabled>1</report_enabled>
+                                <report_test>1</report_test>
+                            </depends>
+                        </report_test_url>
+                        <report_live_url translate="label">
+                            <label>On-Demand Report Live URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>225</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the live url for the On-Demand Conversion Report.]]></comment>
+                            <depends>
+                                <report_enabled>1</report_enabled>
+                                <report_test>0</report_test>
+                            </depends>
+                        </report_live_url>
+                        <username translate="label">
+                            <label>On-Demand Report Downloader</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the username dedicated to download reports, specifically with the report downloader permission set.]]></comment>
+                            <depends>
+                                <report_enabled>1</report_enabled>
+                            </depends>
+                        </username>
+                        <login translate="label">
+                            <label>Password</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>235</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the password associated with the Report Downloader user.]]></comment>
+                            <depends>
+                                <report_enabled>1</report_enabled>
+                            </depends>
+                        </login>
+                        <order_pagesize translate="label">
+                            <label>Amount of Orders in batch</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number</validate>
+                            <comment><![CDATA[This is the maximum amount of orders that will be batched for conversion update.]]></comment>
+                            <depends>
+                                <report_enabled>1</report_enabled>
+                            </depends>
+                        </order_pagesize>
+                        <log_report_response translate="label">
+                            <label>On-Demand Log Responses</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>245</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to yes the responses from On-Demand Report requests will be logged.]]></comment>
+                        </log_report_response>
+                        <email_cancel_template translate="label">
+                            <label>Notification Customer Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>255</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select Template</comment>
+                            <tooltip>This is the notification email that is to be sent to customer when the order is cancelled.</tooltip>
+                        </email_cancel_template>
+                        <guest_email_cancel_template translate="label">
+                            <label>Notification Guest Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select Template</comment>
+                            <tooltip>This is the notification email that is to be sent to Guest when the order is cancelled.</tooltip>
+                        </guest_email_cancel_template>
+                    </fields>
+                </cybersourcesop>
+            </groups>
+        </payment>
+    </sections>
+</config>
