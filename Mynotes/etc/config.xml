@@ -1,0 +1,77 @@
+<?xml version = "1.0"?>
+
+<config>
+	<modules>
+		<Mofluid_Mynotes>
+			<version>1.0.0</version>
+		</Mofluid_Mynotes>
+	</modules>
+
+	<frontend>
+		<routers>
+			<mynotes>
+				<use>standard</use>
+				<args>
+					<module>Mofluid_Mynotes</module>
+					<frontName>mynotes</frontName>
+				</args>
+			</mynotes>
+		</routers>
+	</frontend>
+
+	<global>
+		<helpers>
+			<mofluid_mynotes>
+				<class>Mofluid_Mynotes_Helper</class>
+			</mofluid_mynotes>
+		</helpers>
+		
+		<blocks>
+			<mofluid_mynotes>
+				<class>Mofluid_Mynotes_Block</class>
+			</mofluid_mynotes>
+		</blocks>
+		
+		<models>
+			<mofluid_mynotes>
+				<class>Mofluid_Mynotes_Model</class>
+				<resourceModel>mofluid_mynotes_mysql4</resourceModel>
+			</mofluid_mynotes>
+
+			<mofluid_mynotes_mysql4>
+				<class>Mofluid_Mynotes_Model_Mysql4</class>
+				<entities>
+					<mynotes>
+						<table>mofluid_mynotes</table>
+					</mynotes>
+				</entities>
+			</mofluid_mynotes_mysql4>
+		</models>
+
+		<resources>
+			<mofluid_mynotes_setup>
+				<setup>
+					<module>Mofluid_Mynotes</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</mofluid_mynotes_setup>
+
+			<mofluid_mynotes_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</mofluid_mynotes_write>
+		
+			<mofluid_mynotes_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</mofluid_mynotes_read>
+
+		</resources>
+
+	</global>
+
+</config>
